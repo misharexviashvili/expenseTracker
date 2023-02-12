@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-
+// Expenses prop comes from ExpensesOutput, which has DUMMY_EXPENSES data for now
 const ExpensesSummary = ({ expenses, periodName }) => {
   const expensesSum = expenses.reduce((sum, expense) => {
     // TODO: expense obj must have amount prop later on
