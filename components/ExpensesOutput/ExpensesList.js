@@ -1,8 +1,10 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
-
-const ExpensesList = () => {
-  return <FlatList />;
+import { FlatList, StyleSheet, Text } from "react-native";
+// Function for rendering, instead of passing function directly int oflatlis renderItem
+function renderExpenseItem(itemData) {
+  return <Text>{itemData.item.description}</Text>;
+}
+const ExpensesList = ({ expenses }) => {
+  return <FlatList data={expenses} renderItem={renderExpenseItem} keyExtractor={(item)=>item.id}/>;
 };
 
 export default ExpensesList;
