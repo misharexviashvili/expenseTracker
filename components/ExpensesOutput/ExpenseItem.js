@@ -3,7 +3,7 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import GlobalStyles from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
 import { useNavigation } from "@react-navigation/native";
-export default function ExpenseItem({ description, amount, date }) {
+export default function ExpenseItem({ description, amount, date, id }) {
   const navigation = useNavigation();
   function expensePressHandler() {
     // Second argument sends data that can be extracted in ManageExpense component like this : route.params.expenseId
