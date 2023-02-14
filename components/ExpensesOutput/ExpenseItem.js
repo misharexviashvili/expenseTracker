@@ -6,7 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 export default function ExpenseItem({ description, amount, date }) {
   const navigation = useNavigation();
   function expensePressHandler() {
-    navigation.navigate("ManageExpense");
+    // Second argument sends data that can be extracted in ManageExpense component like this : route.params.expenseId
+    navigation.navigate("ManageExpense", {
+      expenseId: id,
+    });
   }
   return (
     <Pressable
