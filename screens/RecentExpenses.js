@@ -2,7 +2,7 @@ import { useContext } from "react";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import { ExpensesContext } from "../store/expenses-context";
 import { getDateMinusDays } from "../util/date";
-
+// Elements will render here if they are actually 7 days old max
 const RecentExpenses = () => {
   const expensesCtx = useContext(ExpensesContext);
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
