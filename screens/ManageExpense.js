@@ -1,10 +1,12 @@
 import { StyleSheet, View } from "react-native";
-import { useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import IconbButton from "../components/UI/IconbButton";
 import GlobalStyles from "../constants/styles";
 import Button from "../components/UI/Button";
+import { ExpensesContext } from "../store/expenses-context";
 
 const ManageExpense = ({ navigation, route }) => {
+  const expensesCtx = useContext(ExpensesContext);
   // params must be checked with ? because if its undefined drilling it will cause error
   const editedEpxenseId = route.params?.expenseId;
   // CONVERTING INTO BOOLEAN USING !! symbol, it converts truthy value into true, falsy  into false
@@ -20,12 +22,26 @@ const ManageExpense = ({ navigation, route }) => {
   });
   // TODO:
   function deleteExpenseHandler() {
+    expensesCtx.deleteExpense(editedEpxenseId);
     navigation.goBack();
   }
   function cancelHandler() {
     navigation.goBack();
   }
   function confirmHandler() {
+    if (isEditing) {
+      expensesCtx.updateExpense(editedEpxenseId, {
+        description: "Test!!!",
+        amount: 29.99,
+        date: new Date("2022-05-20"),
+      });
+    } else {
+      expensesCtx.addExpense({
+        description: "Test",
+        amount: 19.99,
+        date: new Date("2022-05-19"),
+      });
+    }
     navigation.goBack();
   }
   return (
