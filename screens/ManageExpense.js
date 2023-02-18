@@ -12,6 +12,9 @@ const ManageExpense = ({ navigation, route }) => {
   const editedEpxenseId = route.params?.expenseId;
   // CONVERTING INTO BOOLEAN USING !! symbol, it converts truthy value into true, falsy  into false
   const isEditing = !!editedEpxenseId;
+  const selectedExpense = expensesCtx.expenses.find(
+    (expense) => expense.id === editedEpxenseId
+  );
   // We should call  navigation.setOptions() from inside useEffect or useLayoutEffect, useLayoutEffect renders while screen is laoded, useEffect waits and loads after
   useLayoutEffect(() => {
     navigation.setOptions(
@@ -21,7 +24,6 @@ const ManageExpense = ({ navigation, route }) => {
       [navigation, isEditing]
     );
   });
-  // TODO:
   function deleteExpenseHandler() {
     expensesCtx.deleteExpense(editedEpxenseId);
     navigation.goBack();
@@ -29,33 +31,23 @@ const ManageExpense = ({ navigation, route }) => {
   function cancelHandler() {
     navigation.goBack();
   }
-  function confirmHandler() {
+  function confirmHandler(expenseData) {
     if (isEditing) {
-      expensesCtx.updateExpense(editedEpxenseId, {
-        description: "Test!!!",
-        amount: 29.99,
-        date: new Date("2022-05-20"),
-      });
+      expensesCtx.updateExpense(editedEpxenseId, expenseData);
     } else {
-      expensesCtx.addExpense({
-        description: "Test",
-        amount: 19.99,
-        date: new Date("2022-05-19"),
-      });
+      expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }
   return (
     <View style={styles.container}>
-     <ExpenseForm/>
-      <View style={styles.buttons}>
-        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
-          Cancel
-        </Button>
-        <Button style={styles.button} onPress={confirmHandler}>
-          {isEditing ? "Update" : "Add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        onSubmit={confirmHandler}
+        onCancel={cancelHandler}
+        submitButtonLabel={isEditing ? "UPDATE" : "ADD"}
+        defaultValues ={selectedExpense}
+      />
+
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconbButton
