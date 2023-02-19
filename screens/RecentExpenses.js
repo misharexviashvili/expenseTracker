@@ -5,13 +5,15 @@ import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 // Elements will render here if they are actually 7 days old max
 const RecentExpenses = () => {
+  const expensesCtx = useContext(ExpensesContext);
   useEffect(() => {
     async function getExpenses() {
       const expenses = await fetchExpenses();
+      expensesCtx.setExpenses(expenses);
     }
     getExpenses();
   }, []);
-  const expensesCtx = useContext(ExpensesContext);
+  // const expensesCtx = useContext(ExpensesContext);
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7);
