@@ -2,9 +2,9 @@ import { StyleSheet, TextInput, View } from "react-native";
 import { useContext, useLayoutEffect } from "react";
 import IconbButton from "../components/UI/IconbButton";
 import GlobalStyles from "../constants/styles";
-import Button from "../components/UI/Button";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { storeExpense } from "../util/http";
 
 const ManageExpense = ({ navigation, route }) => {
   const expensesCtx = useContext(ExpensesContext);
@@ -35,6 +35,7 @@ const ManageExpense = ({ navigation, route }) => {
     if (isEditing) {
       expensesCtx.updateExpense(editedEpxenseId, expenseData);
     } else {
+      storeExpense(expenseData);
       expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
@@ -45,7 +46,7 @@ const ManageExpense = ({ navigation, route }) => {
         onSubmit={confirmHandler}
         onCancel={cancelHandler}
         submitButtonLabel={isEditing ? "UPDATE" : "ADD"}
-        defaultValues ={selectedExpense}
+        defaultValues={selectedExpense}
       />
 
       {isEditing && (

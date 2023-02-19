@@ -41,7 +41,9 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
     const dateIsValid = expenseData.date.toString() !== "Invalid Date";
     const descriptionIsValid = expenseData.description.trim().length > 0;
-
+    // If any of those validation fail (comes out as false) that false needs to be added to state obj where isValid by defalut is true,
+    // So it changes to false, if amount is invalid amount, corresponding false will be sent to amount's isValid property (happens in if block),
+    // e.g. { value: curInputs.amount.value, isValid: false },
     if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
       // Alert.alert('Invalid input', 'Please check your input values');
       setInputs((curInputs) => {
@@ -59,7 +61,8 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
 
     onSubmit(expenseData);
   }
-
+  // The formIsInvalid variable is  used to determine whether to display a general error message below the input fields.
+  // If any of the input fields are invalid, the message "Invalid input values - please check your entered data!" is displayed.
   const formIsInvalid =
     !inputs.amount.isValid ||
     !inputs.date.isValid ||
